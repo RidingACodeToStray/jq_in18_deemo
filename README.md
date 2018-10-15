@@ -1,0 +1,2 @@
+# jq_in18_deemo
+基于jquery_i18_properties的demo
