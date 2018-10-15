@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>国际化</title>
+</head>
+<body>
+    
+    <button onclick="switchLang()" id="lang">切换语言</button>
+
+    <label data-locale="username">用户名：</label><input type="text">
+    <label data-locale="password">密码：</label><input type="password">  
+    <script src="lib/jquery.js"></script> 
+    <script src="lib/jquery.i18n.properties-1.0.9.js"></script>
+    <script type="text/javascript">
+        var s_lang = $.i18n.browserLang(); //获取系统语言
+        loadProperties(s_lang);  //系统语言国际化
+        function loadProperties(lang) {
+            $.i18n.properties({  
+                name:'strings',    //属性文件名     命名格式： 文件名_国家代号.properties
+                path:'i18n/',   //注意这里路径是你属性文件的所在文件夹
+                mode:'map',  
+                //  language:"zh",     //这就是国家代号 name+language刚好组成属性文件名：strings+zh -> strings_zh.properties
+                language:lang,
+                callback:function(){  
+                    $("[data-locale]").each(function(){  
+                        console.log($(this).data("locale"));
+                        $(this).html($.i18n.prop($(this).data("locale")));  
+                    
+                    });
+                    s_lang = lang;  //保存当前的系统语言
+                }  
+            });  
+        }
+        function switchLang(){
+            s_lang = s_lang == 'zh' ? 'en' : 'zh'; //切换语言
+            loadProperties(s_lang)
+        }  
+    </script> 
+</body>
+</html>
